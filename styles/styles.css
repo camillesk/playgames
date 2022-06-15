@@ -1,0 +1,149 @@
+:root {
+  --primary-color: #2a3a63;
+  --secondary-color: #263256;
+  --tertiary-color: #5756d1;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Arial";
+  color: white;
+  /* background: linear-gradient(#141e30, #243b55); */
+  /* background-attachment: fixed; */
+  background-color: var(--primary-color);
+}
+
+/* NAVBAR */
+
+.logo-div {
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 30px;
+  filter: invert(1);
+}
+
+.logo-title {
+  margin-left: 5px;
+  color: #FFF;
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: var(--secondary-color);
+  font-family: Arial;
+  padding: 15px;
+  display: flex;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  color: var(--tertiary-color);
+}
+
+#logo {
+  padding: 0px;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.dropdown .dropbtn:hover {
+  color: var(--tertiary-color);
+}
+
+.dropdown-content {
+  border-radius: 5px;
+  border: 1px solid #424a71;
+  box-shadow: 0 .5rem 1.5rem rgba(66,74,113,.1)!important;
+  display: none;
+  position: absolute;
+  background-color: var(--primary-color);
+  min-width: 160px;
+  z-index: 1;
+  animation-name: DropDownSlide;
+  animation-duration: .3s;
+  animation-fill-mode: both;
+}
+
+.dropdown-content a {
+  float: none;
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  color: var(--tertiary-color);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+}
+
+.cart {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cart a {
+  padding: 10px 16px;
+}
+
+.cart-icon {
+  width: 25px;
+  height: 25px;
+  filter: invert(1);
+}
+
+/* CONTENT */
+
+.content-box {
+  margin: 30px 100px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: var(--tertiary-color);
+}
