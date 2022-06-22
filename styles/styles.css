@@ -2,6 +2,7 @@
   --primary-color: #2a3a63;
   --secondary-color: #263256;
   --tertiary-color: #5756d1;
+  color-scheme: dark;
 }
 
 html {
@@ -26,6 +27,12 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  left: 15px;
+  top: 0;
+  height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .logo {
@@ -46,6 +53,7 @@ body {
   font-family: Arial;
   padding: 15px;
   display: flex;
+  position: relative;
 }
 
 .navbar a {
@@ -90,7 +98,7 @@ body {
   border: 1px solid #424a71;
   box-shadow: 0 .5rem 1.5rem rgba(66,74,113,.1)!important;
   display: none;
-  position: absolute;
+  position: fixed;
   background-color: var(--primary-color);
   min-width: 160px;
   z-index: 1;
@@ -124,10 +132,15 @@ body {
 .cart {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  position: absolute;
+  right: 15px;
+  top: 0;
+  height: 100%;
 }
 
 .cart a {
-  padding: 10px 16px;
+  padding: 0;
 }
 
 .cart-icon {
@@ -141,7 +154,9 @@ body {
 .content-box {
   margin: 30px 100px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   padding: 20px;
   border-radius: 5px;
