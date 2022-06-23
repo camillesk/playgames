@@ -163,7 +163,8 @@ body {
   background-color: var(--tertiary-color);
 }
 
-.error-message {
+
+/* .error-message {
   color: transparent;
   font-size: 0.8em;
   position: absolute;
@@ -174,7 +175,7 @@ body {
 
 .error-message[shown=true] {
   color: red;
-}
+} */
 
 .hidden {
   display: none;

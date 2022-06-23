@@ -47,7 +47,8 @@
 }
 
 .register-box .user-box input:focus ~ label,
-.register-box .user-box input:valid ~ label {
+.register-box .user-box input:valid ~ label,
+.register-box .user-box input.not_empty ~ label {
   top: -20px;
   left: 0;
   color: #03e9f4;
