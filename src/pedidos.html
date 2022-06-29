@@ -39,11 +39,10 @@
     </div>
   </div>
 
-  <h1>
-    <center>Pedidos</center>
-  </h1>
-
-  <div class="orders-outer">
+  <div class="orders-outer" id="orders-outer">
+    <h1>
+      <center>Pedidos</center>
+    </h1>
     <table id="orders">
       <tbody id="orders-body">
         <tr>
@@ -67,7 +66,11 @@
   <div class="orders-outer" id="products" hidden></div>
 
   <template id="products-template">
-    <button onclick="setMode(MODES.ORDERS)">Ver todos pedidos</button>
+    <h1>Pedido <span id="order-number"></span></h1>
+    <div>
+      <button onclick="setMode(MODES.ORDERS)">Ver todos pedidos</button>
+    </div>
+    <br />
     <table>
       <tbody id="products-body">
         <tr>
@@ -86,7 +89,8 @@
       </tbody>
     </table>
 
-    <h1>Produtos</h1>
+    <br />
+
     <div id="products-content"></div>
   </template>
 </body>

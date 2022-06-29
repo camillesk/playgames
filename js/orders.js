@@ -142,11 +142,11 @@ function getOrderElement(order, button = true) {
 function setMode(mode) {
   switch (mode) {
     case MODES.ORDERS:
-      document.getElementById("orders").removeAttribute("hidden");
+      document.getElementById("orders-outer").removeAttribute("hidden");
       document.getElementById("products").setAttribute("hidden", "true");
       break;
     case MODES.PRODUCTS:
-      document.getElementById("orders").setAttribute("hidden", "true");
+      document.getElementById("orders-outer").setAttribute("hidden", "true");
       document.getElementById("products").removeAttribute("hidden");
       break;
   }
@@ -157,16 +157,16 @@ function setMode(mode) {
  * @param {Order} order
  */
 function setOrder(order) {
-  let p = document.getElementById("products");
-  let atlas /* portal reference pog */ =
-    document.getElementById("products-template");
+  let prod = document.getElementById("products");
+  let template = document.getElementById("products-template");
 
-  p.innerHTML = "";
-  p.appendChild(atlas.content.cloneNode(true));
+  prod.innerHTML = "";
+  prod.appendChild(template.content.cloneNode(true));
 
   let pbody = document.getElementById("products-body");
-
   pbody.appendChild(getOrderElement(order, false));
+
+  document.getElementById("order-number").innerText = order.id;
 }
 
 /**
