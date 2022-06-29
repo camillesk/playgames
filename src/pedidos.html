@@ -1,40 +1,94 @@
 <!DOCTYPE html>
 <html lang="pt-br" dir="ltr">
-  <head>
-    <meta charset="UTF-8" />
-    <title>PlayGames - Pedidos</title>
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico" />
-    <link rel="stylesheet" href="../styles/styles.css" />
-    <link rel="stylesheet" href="../styles/grid.css" />
-  </head>
-  <body>
-    <div class="navbar">
-      <div class="col-3">
-        <a id="logo" href="./index.html">
-          <div class="logo-div">
-            <img src="../images/logo.png" alt="logo" class="logo" />
-            <span class="logo-title">PLAY GAMES</span>
-          </div>
-        </a>
-      </div>
-      <div class="col-6 menu">
-        <div class="dropdown">
-          <button class="dropbtn">
-            Administração
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="dropdown-content">
-            <a href="./admin-categories.html">Categorias</a>
-            <a href="./admin-products.html">Produtos</a>
-          </div>
-        </div>
-        <a href="./produtos.html">Produtos</a>
-        <a href="./pedidos.html">Pedidos</a>
-        <a href="./contatos.html">Contato</a>
-        <a href="./sobre.html">Sobre</a>
-      </div>
-    </div>
 
-    <h1><center>FINALIZAR PAGINA PEDIDOS</center></h1>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <title>PlayGames - Pedidos</title>
+  <link rel="icon" type="image/x-icon" href="../images/favicon.ico" />
+  <link rel="stylesheet" href="../styles/styles.css" />
+  <link rel="stylesheet" href="../styles/grid.css" />
+  <link rel="stylesheet" href="../styles/orders.css" />
+  <script src="../js/orders.js"></script>
+</head>
+
+<body onload="onLoad();">
+  <div class="navbar">
+    <div class="col-3">
+      <a id="logo" href="./index.html">
+        <div class="logo-div">
+          <img src="../images/logo.png" alt="logo" class="logo" />
+          <span class="logo-title">PLAY GAMES</span>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 menu">
+      <div class="dropdown">
+        <button class="dropbtn">
+          Administração
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="./admin-categories.html">Categorias</a>
+          <a href="./admin-products.html">Produtos</a>
+        </div>
+      </div>
+      <a href="./produtos.html">Produtos</a>
+      <a href="./pedidos.html">Pedidos</a>
+      <a href="./contatos.html">Contato</a>
+      <a href="./sobre.html">Sobre</a>
+    </div>
+  </div>
+
+  <h1>
+    <center>Pedidos</center>
+  </h1>
+
+  <div class="orders-outer">
+    <table id="orders">
+      <tbody id="orders-body">
+        <tr>
+          <th>Id</th>
+          <th>Nome</th>
+          <th>CPF</th>
+          <th>CEP</th>
+          <th>Estado</th>
+          <th>Cidade</th>
+          <th>Bairro</th>
+          <th>Rua</th>
+          <th>Complemento</th>
+          <th>Number</th>
+          <th>Hora</th>
+          <th>Produtos</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="orders-outer" id="products" hidden></div>
+
+  <template id="products-template">
+    <button onclick="setMode(MODES.ORDERS)">Ver todos pedidos</button>
+    <table>
+      <tbody id="products-body">
+        <tr>
+          <th>Id</th>
+          <th>Nome</th>
+          <th>CPF</th>
+          <th>CEP</th>
+          <th>Estado</th>
+          <th>Cidade</th>
+          <th>Bairro</th>
+          <th>Rua</th>
+          <th>Complemento</th>
+          <th>Number</th>
+          <th>Hora</th>
+        </tr>
+      </tbody>
+    </table>
+
+    <h1>Produtos</h1>
+    <div id="products-content"></div>
+  </template>
+</body>
+
 </html>

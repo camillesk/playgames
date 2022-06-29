@@ -1,0 +1,48 @@
+.orders-outer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flex-0 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-item {
+    margin-bottom: 32px;
+}
+
+.order-item-content {
+    background-color: #00000050;
+}
+
+table {
+    width: 90%;
+    border-collapse: collapse;
+}
+
+tr > * {
+    border: solid white 1px;
+    text-align: center;
+}
+
+.order-products > *:visited, .order-products > * {
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #00000050;
+}
+
+*[hidden=true] {
+    display: none;
+}
+
+.product-image {
+    max-width: 15vw;
+    max-height: 15vw;
+}
