@@ -6,6 +6,8 @@
     <link rel="icon" type="image/x-icon" href="../images/favicon.ico" />
     <link rel="stylesheet" href="../styles/styles.css" />
     <link rel="stylesheet" href="../styles/grid.css" />
+    <link rel="stylesheet" href="../styles/products.css" />
+    <script src="../js/products.js"></script>
   </head>
   <body>
     <div class="navbar">
@@ -33,13 +35,56 @@
         <a href="./contatos.html">Contato</a>
         <a href="./sobre.html">Sobre</a>
       </div>
-      <div class="col-3 cart">
-        <a type="button" name="button" class="cart">
-          <img src="../images/cart.png" alt="cart" class="cart-icon" />
-        </a>
+    </div>
+    <div ondrop="drop_handler(event)" ondragover="dragover_handler(event)">
+      <button id="cartbtn" onclick="openCart()">
+        <img src="../images/cart.png" alt="cart" id="cartimg"/>
+      </button>
+    </div>
+    <div id="floatingcart" ondrop="drop_handler(event)" ondragover="dragover_handler(event)">
+      <div id="cart-header">
+        <h4>Seu carrinho de compras</h4>
+        <span id="cart-close">x</span>
+      </div>
+      <div id="cart-body"></div>
+      <div id="cart-footer">
+        <span>Total: R$ </span>
+        <span id="cart-total">0</span>
+        <button id="cart-confirm" onclick="cartSubmit()">
+          <img src="../images/ok.png" alt="confirm cart" id="cart-confirm-img">
+        </button>
       </div>
     </div>
-
-    <h1><center>INSERIR INFORMAÇÕES DE PRODUTOS</center></h1>
+    <div class="content-box">
+      <label for="cat">Categoria:</label>
+      <select name="cat" id="category-selection" onchange="listProducts(this)">
+        <option value="default" text="" data-default disabled selected></option>
+      </select>
+    </div>
+    <div class="content-box" id="products-list">
+      Selecione uma categoria.
+    </div>
+    <div id="myModal" class="modal">
+      <span class="close">×</span>
+      <img class="modal-content" id="img01">
+      <div id="caption"></div>
+    </div>
+    <div id="cart-submit-modal" class="modal">
+      <span class="close">×</span>
+      <div id="cart-submit-body" class="modal-content">
+        <object type="text/html" data="client_register.html"></object>
+      </div>
+    </div>
+    <div id="text-modal" class="modal">
+      <div id="text-modal-content" class="modal-content">
+        <div id="text-modal-header">
+          <span id="text-modal-close" class="close">×</span>
+        </div>
+        <div id="text-modal-body"></div>
+      </div>
+    </div>
+    <div id="loading-modal" class="modal">
+      <img src="../images/loading.gif" id="loading-image" class="modal-content">
+    </div>
   </body>
 </html>
