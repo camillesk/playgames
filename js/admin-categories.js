@@ -13,7 +13,7 @@ window.onload =
 
       tdId.innerText = category.id;
       tdName.innerText = category.nome;
-      tdActions.innerHTML = `<button onclick="openEditModal(${category.id});" class="edit-btn">Editar</button><button onclick="removeCategory(${category.id});">Deletar</button>`;
+      tdActions.innerHTML = `<button onclick="openModal(${category.id});" class="edit-btn">Editar</button><button onclick="removeCategory(${category.id});">Deletar</button>`;
       tdActions.className = 'actions-td';
 
       tr.appendChild(tdId);
@@ -23,32 +23,41 @@ window.onload =
     });
   }
 
-function openEditModal(categoryId) {
- var request = new XMLHttpRequest();
-  request.open('GET', `http://loja.buiar.com/?key=2xhj8d&c=categoria&f=json&t=listar&id=${categoryId}`);
-  request.send();
-  request.onload = function() {
-    var editForm = document.getElementById('editForm');
+function openModal(categoryId) {
+ if (categoryId) {
+   var request = new XMLHttpRequest();
+   request.open('GET', `http://loja.buiar.com/?key=2xhj8d&c=categoria&f=json&t=listar&id=${categoryId}`);
+   request.send();
+   request.onload = function() {
+     var editForm = document.getElementById('editForm');
 
-    data = request.response;
-    dataJson = JSON.parse(data);
+     data = request.response;
+     dataJson = JSON.parse(data);
 
-    editForm.id.value = dataJson.dados[0].id;
-    editForm.name.value = dataJson.dados[0].nome;
-  }
-
-  var modal = document.getElementById('editModal');
+     editForm.id.value = dataJson.dados[0].id;
+     editForm.name.value = dataJson.dados[0].nome;
+   }
+ }
+  var modal = document.getElementById('modal');
 
   modal.style.display = "block";
 }
 
-function closeEditModal() {
-  var modal = document.getElementById('editModal');
+function closeModal() {
+  var modal = document.getElementById('modal');
   var editForm = document.getElementById('editForm');
 
   editForm.id.value = null;
   editForm.name.value = null;
   modal.style.display = "none";
+}
+
+function saveCategory(form) {
+  if (form.id.value) {
+    editCategory(form);
+  } else {
+    createCategory(form);
+  }
 }
 
 function createCategory(form) {
@@ -69,7 +78,9 @@ function removeCategory(id) {
   request.send();
   request.onload = function() {
     data = request.response;
-    if (data.length > 0 ) {
+    dataJson = JSON.parse(data);
+
+    if (dataJson.dados.length > 0 ) {
       alert('Existem produtos cadastrados nessa categoria!');
       return
     } else {

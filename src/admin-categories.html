@@ -37,17 +37,15 @@
     <div class="">
       <h1><center>Administração - Categorias</center></h1>
 
+      <center>
+        <button type="button" class="new-category-btn" onclick="openModal()">
+          <img src="../images/add.png" alt="add-category" class="add-icon">
+          Adicionar Categoria
+        </button>
+      </center>
+
       <div class="content-box">
-        <div class="new-div">
-          <form onsubmit="createCategory(this)">
-            <label for="name">Nome da Categoria</label>
-            <input type="text" name="name" placeholder="Nome" />
-
-            <button type="submit">Criar Categoria</button>
-          </form>
-        </div>
-
-        <div class="list">
+        <div class="categories-list-div">
           <table id="categories-list">
             <thead>
               <tr>
@@ -61,15 +59,15 @@
       </div>
     </div>
 
-    <div id="editModal" class="modal">
+    <div id="modal" class="modal">
       <div class="modal-content" style="width: 25%;">
-        <span onclick="closeEditModal();" style="float:right;">&times;</span>
-        <form onsubmit="editCategory(this)" id="editForm">
+        <span onclick="closeModal();" style="float:right;">&times;</span>
+        <form onsubmit="saveCategory(this)" id="editForm">
           <input type="text" name="id" hidden />
           <label for="name">Nome</label>
           <input type="text" name="name" placeholder="Nome" />
 
-          <button type="submit">Editar Categoria</button>
+          <button type="submit">Salvar</button>
         </form>
       </div>
     </div>
