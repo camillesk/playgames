@@ -36,31 +36,34 @@
 
     <div class="">
       <h1><center>Administração - Categorias</center></h1>
-      <div class="content-box">
-        <table id="categories-list">
-          <thead>
-            <tr>
-              <td>ID</td>
-              <td>Nome</td>
-              <td>Editar</td>
-              <td>Deletar</td>
-            </tr>
-          </thead>
-        </table>
-      </div>
-      <div class="content-box">
-        <form onsubmit="createCategory(this)">
-          <label for="name">Nome da Categoria</label>
-          <input type="text" name="name" placeholder="Nome" />
 
-          <button type="submit">Criar Categoria</button>
-        </form>
+      <div class="content-box">
+        <div class="new-div">
+          <form onsubmit="createCategory(this)">
+            <label for="name">Nome da Categoria</label>
+            <input type="text" name="name" placeholder="Nome" />
+
+            <button type="submit">Criar Categoria</button>
+          </form>
+        </div>
+
+        <div class="list">
+          <table id="categories-list">
+            <thead>
+              <tr>
+                <td>ID</td>
+                <td>Nome</td>
+                <td>Ações</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
       </div>
     </div>
 
     <div id="editModal" class="modal">
-      <div class="modal-content">
-        <span onclick="closeEditModal();">&times;</span>
+      <div class="modal-content" style="width: 25%;">
+        <span onclick="closeEditModal();" style="float:right;">&times;</span>
         <form onsubmit="editCategory(this)" id="editForm">
           <input type="text" name="id" hidden />
           <label for="name">Nome</label>

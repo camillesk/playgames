@@ -9,33 +9,45 @@ window.onload =
       let tr = document.createElement("tr");
       let tdId = document.createElement("td");
       let tdName = document.createElement("td");
-      let tdEdit = document.createElement("td");
-      let tdDelete = document.createElement("td");
+      let tdActions = document.createElement("td");
 
       tdId.innerText = category.id;
       tdName.innerText = category.nome;
-      tdEdit.innerHTML = `<button onclick="openEditModal(${category.id});">Editar</button>`;
-      tdDelete.innerHTML = `<button onclick="removeCategory(${category.id});">Deletar</button>`;
+      tdActions.innerHTML = `<button onclick="openEditModal(${category.id});" class="edit-btn">Editar</button><button onclick="removeCategory(${category.id});">Deletar</button>`;
+      tdActions.className = 'actions-td';
 
       tr.appendChild(tdId);
       tr.appendChild(tdName);
-      tr.appendChild(tdEdit);
-      tr.appendChild(tdDelete);
+      tr.appendChild(tdActions);
       table.appendChild(tr);
     });
   }
 
 function openEditModal(categoryId) {
-  var modal = document.getElementById('editModal');
-  var editForm = document.getElementById('editForm');
+ var request = new XMLHttpRequest();
+  request.open('GET', `http://loja.buiar.com/?key=2xhj8d&c=categoria&f=json&t=listar&id=${categoryId}`);
+  request.send();
+  request.onload = function() {
+    var editForm = document.getElementById('editForm');
 
-  editForm.id.value = categoryId;
+    data = request.response;
+    dataJson = JSON.parse(data);
+
+    editForm.id.value = dataJson.dados[0].id;
+    editForm.name.value = dataJson.dados[0].nome;
+  }
+
+  var modal = document.getElementById('editModal');
 
   modal.style.display = "block";
 }
 
 function closeEditModal() {
   var modal = document.getElementById('editModal');
+  var editForm = document.getElementById('editForm');
+
+  editForm.id.value = null;
+  editForm.name.value = null;
   modal.style.display = "none";
 }
 
@@ -53,7 +65,17 @@ function editCategory(form) {
 
 function removeCategory(id) {
   var request = new XMLHttpRequest();
-  request.open('POST', 'http://loja.buiar.com/?key=2xhj8d&c=categoria&t=remover&id=' + id)
+  request.open('POST', `http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar&categoria=${id}`)
   request.send();
-  window.location.reload();
+  request.onload = function() {
+    data = request.response;
+    if (data.length > 0 ) {
+      alert('Existem produtos cadastrados nessa categoria!');
+      return
+    } else {
+      request.open('POST', 'http://loja.buiar.com/?key=2xhj8d&c=categoria&t=remover&id=' + id)
+      request.send();
+      window.location.reload();
+    }
+  }
 }

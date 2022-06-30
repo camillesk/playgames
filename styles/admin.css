@@ -4,10 +4,49 @@
   --tertiary-color: #5756d1;
 }
 
-table, th, td {
+.new-div {
+  margin: 25px 0;
+}
+
+table {
+  width: 100%;
+  text-align: center;
+}
+
+table, td {
   border: 1px solid;
   border-collapse: collapse;
+  border-color: var(--secondary-color);
 }
+
+thead {
+  background-color: rgba(0, 0, 0, 0.5);
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.2)
+}
+
+.actions-td {
+  width: 30%;
+}
+
+.edit-btn {
+  margin-right: 20px;
+}
+
+.list {
+  width: 90%;
+  height: 300px;
+  overflow-y: auto;
+}
+
+/* #categories-list {
+  position: sticky;
+  top: 0;
+  width: 100%;
+} */
 
 /* The Modal (background) */
 .modal {
@@ -26,10 +65,11 @@ table, th, td {
 /* Modal Content/Box */
 .modal-content {
   background-color: #263256;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  border-radius: 10px;
+  width: 80%;
 }
 
 .product-card {
