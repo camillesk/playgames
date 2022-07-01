@@ -62,8 +62,8 @@
 
       <div id="modal" class="modal">
         <div class="modal-content">
-          <span onclick="closeModal();" style="float:right;">&times;</span>
           <form onsubmit="saveProduct(this)" id="form">
+            <span onclick="closeModal();" style="margin-left:auto;cursor:pointer;">&times;</span>
             <input type="text" name="id" hidden />
 
             <div class="form-input">
@@ -83,7 +83,7 @@
 
             <div class="form-input">
               <label for="desc">Descrição</label>
-              <textarea name="desc" rows="4"> </textarea>
+              <textarea name="desc" rows="6" cols="60"> </textarea>
             </div>
 
             <div class="form-input">
@@ -103,7 +103,7 @@
 
             <div class="form-input">
               <label for="image">Imagem</label>
-              <input type="url" name="image" placeholder="URL da imagem">
+              <input type="url" name="image" placeholder="URL da imagem" class="img-input">
             </div>
 
             <div class="form-input">

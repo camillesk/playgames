@@ -111,7 +111,7 @@ function createProduct(form) {
   var request = new XMLHttpRequest();
   let formattedWeight = form.weight.value.replace(',', '.');
   let formattedPrice = form.price.value.replace(',', '.');
-  var url = `http://loja.buiar.com/?key=2xhj8d&c=produto&t=inserir&nome=${form.name.value}&codigo=${form.cod.value}&categoria=${form.cat.value}&peso=${formattedWeight}&preco=${formattedPrice}&descricao=${form.desc.value}`;
+  var url = `http://loja.buiar.com/?key=2xhj8d&c=produto&t=inserir&nome=${form.name.value}&codigo=${form.cod.value}&categoria=${form.cat.value}&peso=${formattedWeight}&preco=${formattedPrice}&descricao=${form.desc.value}&imagem=${form.image.value}`;
   request.open('POST', url);
   request.send();
 }
@@ -120,7 +120,7 @@ function editProduct(form) {
   var request = new XMLHttpRequest();
   let formattedWeight = form.weight.value.replace(',', '.');
   let formattedPrice = form.price.value.replace(',', '.');
-  request.open('POST', `http://loja.buiar.com/?key=2xhj8d&c=produto&t=alterar&id=${form.id.value}&nome=${form.name.value}&codigo=${form.cod.value}&categoria=${form.cat.value}&peso=${formattedWeight}&preco=${formattedPrice}&descricao=${form.desc.value}`)
+  request.open('POST', `http://loja.buiar.com/?key=2xhj8d&c=produto&t=alterar&id=${form.id.value}&nome=${form.name.value}&codigo=${form.cod.value}&categoria=${form.cat.value}&peso=${formattedWeight}&preco=${formattedPrice}&descricao=${form.desc.value}&imagem=${form.image.value}`)
   request.send();
 }
 
