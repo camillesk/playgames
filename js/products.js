@@ -47,6 +47,48 @@ async function listProducts(form) {
     productsList.innerText = `Nenhum produto encontrado na categoria ${form.value}`;
   }
 
+  // data.dados.forEach((product) => {
+  //   let div = document.createElement("div");
+  //   div.setAttribute('class', 'product-item');
+  //   div.setAttribute('id', product.id);
+  //   div.setAttribute('title', 'Para adicionar o produto ao carrinho, arraste ou dê um duplo clique');
+  //   div.setAttribute('draggable', 'true');
+  //   div.setAttribute('ondragstart', 'dragstart_handler(event)');
+  //   div.setAttribute('ondblclick', 'checkCartQtd(this.id)');
+  //   productsList.appendChild(div);
+  //
+  //   let divImg = document.createElement("div");
+  //   divImg.setAttribute('class', "img-div");
+  //   div.appendChild(divImg);
+  //   let img = document.createElement("img");
+  //   img.setAttribute('src', product.imagem);
+  //   img.setAttribute('alt', product.nome);
+  //   img.setAttribute('class', "myImg");
+  //   img.setAttribute('draggable', 'false');
+  //   img.setAttribute('onclick', "openModal(this)");
+  //   divImg.appendChild(img);
+  //
+  //   let divInfo = document.createElement("div");
+  //   divInfo.setAttribute("class", "info-div");
+  //   div.appendChild(divInfo);
+  //   let hNome = document.createElement("h3");
+  //   hNome.innerText = product.nome;
+  //   divInfo.appendChild(hNome);
+  //   let pDesc = document.createElement("p");
+  //   pDesc.innerText = product.descricao;
+  //   divInfo.appendChild(pDesc);
+  //
+  //   let divPreco = document.createElement("div");
+  //   divPreco.setAttribute("class", "preco-div");
+  //   div.appendChild(divPreco);
+  //   let hPreco = document.createElement("h4");
+  //   hPreco.innerText = `R$ ${product.preco}`;
+  //   divPreco.appendChild(hPreco);
+  //
+  //   let line = document.createElement("hr");
+  //   productsList.appendChild(line);
+  // });
+
   data.dados.forEach((product) => {
     let div = document.createElement("div");
     div.setAttribute('class', 'product-item');
@@ -55,38 +97,19 @@ async function listProducts(form) {
     div.setAttribute('draggable', 'true');
     div.setAttribute('ondragstart', 'dragstart_handler(event)');
     div.setAttribute('ondblclick', 'checkCartQtd(this.id)');
+
+    div.innerHTML =
+      `<h1 style="margin-top: 30px;">${product.nome}</h1>
+      <img src="${product.imagem}" class="product-img" draggable="false">
+      <p class="product-desc">${product.descricao}</p>
+      <p class="product-price"><b>${realBRLocale.format(product.preco)}</b></p>`
+
+    div.className = "product-card";
+
     productsList.appendChild(div);
 
-    let divImg = document.createElement("div");
-    divImg.setAttribute('class', "img-div");
-    div.appendChild(divImg);
-    let img = document.createElement("img");
-    img.setAttribute('src', product.imagem);
-    img.setAttribute('alt', product.nome);
-    img.setAttribute('class', "myImg");
-    img.setAttribute('draggable', 'false');
-    img.setAttribute('onclick', "openModal(this)");
-    divImg.appendChild(img);
-
-    let divInfo = document.createElement("div");
-    divInfo.setAttribute("class", "info-div");
-    div.appendChild(divInfo);
-    let hNome = document.createElement("h3");
-    hNome.innerText = product.nome;
-    divInfo.appendChild(hNome);
-    let pDesc = document.createElement("p");
-    pDesc.innerText = product.descricao;
-    divInfo.appendChild(pDesc);
-
-    let divPreco = document.createElement("div");
-    divPreco.setAttribute("class", "preco-div");
-    div.appendChild(divPreco);
-    let hPreco = document.createElement("h4");
-    hPreco.innerText = `R$ ${product.preco}`;
-    divPreco.appendChild(hPreco);
-
-    let line = document.createElement("hr");
-    productsList.appendChild(line);
+    // <p>Cod. ${product.codigo}</p>
+    // <p>${brLocale.format(product.peso) + 'KG'}</p>
   });
 }
 
@@ -101,7 +124,7 @@ function openModal(img) {
   captionText.innerHTML = img.alt;
 
   var span = document.getElementsByClassName("close")[0];
-  span.onclick = function() { 
+  span.onclick = function() {
     modal.style.display = "none";
   }
 }
@@ -135,14 +158,14 @@ function drop_handler(ev) {
   ev.preventDefault();
 
   let id = ev.dataTransfer.getData('text');
- 
+
   checkCartQtd(id);
 }
 
 async function checkCartQtd(id) {
   if(document.getElementById(`cart-product-id-${id}`)) {
     let spanQtd = document.getElementById(`cart-product-id-${id}-qtd`);
-    
+
     let qtd = Number(spanQtd.textContent);
     qtd++;
 
@@ -289,7 +312,7 @@ function openCartSubmitModal() {
   modal.style.display = 'block';
 
   var span = document.getElementsByClassName('close')[1];
-  span.onclick = function() { 
+  span.onclick = function() {
     modal.style.display = 'none';
   }
 }
@@ -311,7 +334,7 @@ function completeOrderRegistration(id) {
   div.innerText = '';
 
   var span = document.getElementById("text-modal-close");
-  span.onclick = function() { 
+  span.onclick = function() {
     div.style.display = "none";
     window.location.reload();
   }
@@ -387,7 +410,7 @@ function registerOrder() {
     request.send();
 
     request.onreadystatechange = function() {
-      if (this.readyState === 4) {   
+      if (this.readyState === 4) {
         if (this.status == 200 && this.status < 300) {
           var response = JSON.parse(this.responseText);
           var orderId = response.dados.id;
