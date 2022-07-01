@@ -25,6 +25,48 @@
   filter: invert(1);
 }
 
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #263256;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 10px;
+  width: 80%;
+}
+
+#form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-input {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ADMIN CATEGORIES */
+
+.categories-list-div {
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
 table {
   width: 100%;
   text-align: center;
@@ -53,48 +95,48 @@ tr:nth-child(even) {
   margin-right: 20px;
 }
 
-.categories-list-div {
-  width: 100%;
-  max-height: 300px;
-  overflow-y: auto;
-}
+/* ADMIN - PRODUCTS */
 
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content {
-  background-color: #263256;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  border-radius: 10px;
-  width: 80%;
+.products-list {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .product-card {
   background-color: var(--tertiary-color);
-  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 300px;
-  margin: auto; */
+  margin: 20px 10px;
   text-align: center;
   border-radius: 10px;
   padding: 20px;
-  margin-bottom: 30px;
+  width: 25%;
 }
 
-.price {
-  color: grey;
-  font-size: 22px;
+.product-edit, .product-delete {
+  width: 20px;
+  filter: invert(1);
+}
+
+.product-edit {
+  margin-right: 10px;
+}
+
+.product-img {
+  margin: 10px 0px;
+  width: 80%;
+  height: 40%;
+  object-fit: scale-down;
+}
+
+.product-desc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.product-price {
+  font-size: x-large;
 }

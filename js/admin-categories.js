@@ -29,13 +29,13 @@ function openModal(categoryId) {
    request.open('GET', `http://loja.buiar.com/?key=2xhj8d&c=categoria&f=json&t=listar&id=${categoryId}`);
    request.send();
    request.onload = function() {
-     var editForm = document.getElementById('editForm');
+     var form = document.getElementById('form');
 
      data = request.response;
      dataJson = JSON.parse(data);
 
-     editForm.id.value = dataJson.dados[0].id;
-     editForm.name.value = dataJson.dados[0].nome;
+     form.id.value = dataJson.dados[0].id;
+     form.name.value = dataJson.dados[0].nome;
    }
  }
   var modal = document.getElementById('modal');
@@ -45,10 +45,10 @@ function openModal(categoryId) {
 
 function closeModal() {
   var modal = document.getElementById('modal');
-  var editForm = document.getElementById('editForm');
+  var form = document.getElementById('form');
 
-  editForm.id.value = null;
-  editForm.name.value = null;
+  form.id.value = null;
+  form.name.value = null;
   modal.style.display = "none";
 }
 
