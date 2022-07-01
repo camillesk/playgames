@@ -26,9 +26,6 @@ window.onload =
       div.className = "product-card";
 
       contentDiv.appendChild(div);
-
-      // <p>Cod. ${product.codigo}</p>
-      // <p>${brLocale.format(product.peso) + 'KG'}</p>
     });
 
     response = await fetch('http://loja.buiar.com/?key=2xhj8d&f=json&c=categoria&t=listar');

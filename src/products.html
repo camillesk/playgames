@@ -60,13 +60,13 @@
 
     <div class="content-box">
       <label for="cat">Categoria:</label>
+      <br>
       <select name="cat" id="category-selection" onchange="listProducts(this)">
-        <option value="default" text="" data-default disabled selected></option>
+        <option value="" text="" data-default selected>Todas</option>
       </select>
     </div>
 
     <div class="products-list" id="products-list">
-      Selecione uma categoria.
     </div>
 
     <div id="myModal" class="modal">
@@ -93,6 +93,11 @@
 
     <div id="loading-modal" class="modal">
       <img src="../images/loading.gif" id="loading-image" class="modal-content">
+    </div>
+
+    <div id="product-modal" class="product-modal">
+      <div class="product-modal-content" id="product-modal-content">
+      </div>
     </div>
   </body>
 </html>
