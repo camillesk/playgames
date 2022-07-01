@@ -36,7 +36,7 @@ async function listProducts(categoryId) {
 
   let response = "";
 
-  if (categoryId) {
+  if (categoryId && categoryId.value != "") {
     response = await fetch(`http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar&categoria=${categoryId.value}`);
   } else {
     response = await fetch(`http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar`);
