@@ -9,34 +9,55 @@ window.onload =
       let tr = document.createElement("tr");
       let tdId = document.createElement("td");
       let tdName = document.createElement("td");
-      let tdEdit = document.createElement("td");
-      let tdDelete = document.createElement("td");
+      let tdActions = document.createElement("td");
 
       tdId.innerText = category.id;
       tdName.innerText = category.nome;
-      tdEdit.innerHTML = `<button onclick="openEditModal(${category.id});">Editar</button>`;
-      tdDelete.innerHTML = `<button onclick="removeCategory(${category.id});">Deletar</button>`;
+      tdActions.innerHTML = `<button onclick="openModal(${category.id});" class="edit-btn">Editar</button><button onclick="removeCategory(${category.id});">Deletar</button>`;
+      tdActions.className = 'actions-td';
 
       tr.appendChild(tdId);
       tr.appendChild(tdName);
-      tr.appendChild(tdEdit);
-      tr.appendChild(tdDelete);
+      tr.appendChild(tdActions);
       table.appendChild(tr);
     });
   }
 
-function openEditModal(categoryId) {
-  var modal = document.getElementById('editModal');
-  var editForm = document.getElementById('editForm');
+function openModal(categoryId) {
+ if (categoryId) {
+   var request = new XMLHttpRequest();
+   request.open('GET', `http://loja.buiar.com/?key=2xhj8d&c=categoria&f=json&t=listar&id=${categoryId}`);
+   request.send();
+   request.onload = function() {
+     var form = document.getElementById('form');
 
-  editForm.id.value = categoryId;
+     data = request.response;
+     dataJson = JSON.parse(data);
+
+     form.id.value = dataJson.dados[0].id;
+     form.name.value = dataJson.dados[0].nome;
+   }
+ }
+  var modal = document.getElementById('modal');
 
   modal.style.display = "block";
 }
 
-function closeEditModal() {
-  var modal = document.getElementById('editModal');
+function closeModal() {
+  var modal = document.getElementById('modal');
+  var form = document.getElementById('form');
+
+  form.id.value = null;
+  form.name.value = null;
   modal.style.display = "none";
+}
+
+function saveCategory(form) {
+  if (form.id.value) {
+    editCategory(form);
+  } else {
+    createCategory(form);
+  }
 }
 
 function createCategory(form) {
@@ -53,7 +74,19 @@ function editCategory(form) {
 
 function removeCategory(id) {
   var request = new XMLHttpRequest();
-  request.open('POST', 'http://loja.buiar.com/?key=2xhj8d&c=categoria&t=remover&id=' + id)
+  request.open('POST', `http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar&categoria=${id}`)
   request.send();
-  window.location.reload();
+  request.onload = function() {
+    data = request.response;
+    dataJson = JSON.parse(data);
+
+    if (dataJson.dados.length > 0 ) {
+      alert('Existem produtos cadastrados nessa categoria!');
+      return
+    } else {
+      request.open('POST', 'http://loja.buiar.com/?key=2xhj8d&c=categoria&t=remover&id=' + id)
+      request.send();
+      window.location.reload();
+    }
+  }
 }

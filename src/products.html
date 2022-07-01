@@ -28,19 +28,22 @@
           <div class="dropdown-content">
             <a href="./admin-categories.html">Categorias</a>
             <a href="./admin-products.html">Produtos</a>
+            <a href="./admin-orders.html">Pedidos</a>
           </div>
         </div>
-        <a href="./produtos.html">Produtos</a>
-        <a href="./pedidos.html">Pedidos</a>
-        <a href="./contatos.html">Contato</a>
-        <a href="./sobre.html">Sobre</a>
+        <a href="./products.html">Produtos</a>
+        <a href="./orders.html">Pedidos</a>
+        <a href="./contact.html">Contato</a>
+        <a href="./about.html">Sobre</a>
       </div>
     </div>
+
     <div ondrop="drop_handler(event)" ondragover="dragover_handler(event)">
       <button id="cartbtn" onclick="openCart()">
         <img src="../images/cart.png" alt="cart" id="cartimg"/>
       </button>
     </div>
+
     <div id="floatingcart" ondrop="drop_handler(event)" ondragover="dragover_handler(event)">
       <div id="cart-header">
         <h4>Seu carrinho de compras</h4>
@@ -55,26 +58,31 @@
         </button>
       </div>
     </div>
+
     <div class="content-box">
       <label for="cat">Categoria:</label>
+      <br>
       <select name="cat" id="category-selection" onchange="listProducts(this)">
-        <option value="default" text="" data-default disabled selected></option>
+        <option value="" text="" data-default selected>Todas</option>
       </select>
     </div>
-    <div class="content-box" id="products-list">
-      Selecione uma categoria.
+
+    <div class="products-list" id="products-list">
     </div>
+
     <div id="myModal" class="modal">
       <span class="close">×</span>
       <img class="modal-content" id="img01">
       <div id="caption"></div>
     </div>
+
     <div id="cart-submit-modal" class="modal">
       <span class="close">×</span>
       <div id="cart-submit-body" class="modal-content">
-        <object type="text/html" data="client_register.html"></object>
+        <object type="text/html" data="client-form.html"></object>
       </div>
     </div>
+
     <div id="text-modal" class="modal">
       <div id="text-modal-content" class="modal-content">
         <div id="text-modal-header">
@@ -83,8 +91,14 @@
         <div id="text-modal-body"></div>
       </div>
     </div>
+
     <div id="loading-modal" class="modal">
       <img src="../images/loading.gif" id="loading-image" class="modal-content">
+    </div>
+
+    <div id="product-modal" class="product-modal">
+      <div class="product-modal-content" id="product-modal-content">
+      </div>
     </div>
   </body>
 </html>

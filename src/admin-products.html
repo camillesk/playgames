@@ -28,100 +28,91 @@
           <div class="dropdown-content">
             <a href="./admin-categories.html">Categorias</a>
             <a href="./admin-products.html">Produtos</a>
+            <a href="./admin-orders.html">Pedidos</a>
           </div>
         </div>
-        <a href="./produtos.html">Produtos</a>
-        <a href="./pedidos.html">Pedidos</a>
-        <a href="./contatos.html">Contato</a>
-        <a href="./sobre.html">Sobre</a>
+        <a href="./products.html">Produtos</a>
+        <a href="./orders.html">Pedidos</a>
+        <a href="./contact.html">Contato</a>
+        <a href="./about.html">Sobre</a>
       </div>
     </div>
 
     <div class="">
       <h1><center>Administração - Produtos</center></h1>
-      <div class="content-box">
-        <table id="products-list">
-          <thead>
-            <tr>
-              <td>ID</td>
-              <td>Código</td>
-              <td>Categoria</td>
-              <td>Nome</td>
-              <td>Descrição</td>
-              <td>Peso</td>
-              <td>Preço</td>
-              <td>Editar</td>
-              <td>Deletar</td>
-            </tr>
-          </thead>
-        </table>
-      </div>
-      <div class="content-box">
-        <form onsubmit="createProduct(this)">
-          <label for="cod">Código</label>
-          <input type="number" name="cod" placeholder="123" />
 
-          <label for="cat">Categoria</label>
-          <select name="cat" id="categories-create"></select>
-
-          <label for="name">Nome</label>
-          <input type="text" name="name" placeholder="Nome do Produto" />
-
-          <label for="desc">Descrição</label>
-          <textarea name="desc" rows="4" value=""> </textarea>
-
-          <label for="weight">Peso</label>
-          <input type="text" name="weight" placeholder="23,56" />
-
-          <label for="price">Preço</label>
-          R$<input
-            type="text"
-            name="price"
-            hint="em reais"
-            placeholder="123,45"
-          />
-
-          <label for="imagem">Imagem</label>
-          <input type="url" name="url" placeholder="URL da imagem">
-
-          <button type="submit">Criar Produto</button>
-        </form>
+      <div style="display:flex;justify-content:center;">
+        <span type="button" class="filter-span">
+          Filtar por Categoria:
+          <select id="categories-filter" onchange="listProducts(this)">
+            <option value="" text="" data-default selected>Todas</option>
+          </select>
+        </span>
+        <button type="button" class="new-product-btn" onclick="openModal()">
+          <img src="../images/add.png" alt="add-product" class="add-icon">
+          Adicionar Produto
+        </button>
       </div>
 
-      <div id="editModal" class="modal">
+      <center>
+      </center>
+
+      <div class="products-list" id="products-list">
+      </div>
+
+      <div id="modal" class="modal">
         <div class="modal-content">
-          <span onclick="closeEditModal();">&times;</span>
-          <form onsubmit="editProduct(this)" id="editForm">
-            <label for="cod">Código</label>
-            <input type="number" name="cod" placeholder="123" />
+          <form onsubmit="saveProduct(this)" id="form">
+            <span onclick="closeModal();" style="margin-left:auto;cursor:pointer;">&times;</span>
+            <input type="text" name="id" hidden />
 
-            <label for="cat">Categoria</label>
-            <select name="cat" id="categories-edit"></select>
+            <div class="form-input">
+              <label for="cod">Código</label>
+              <input type="number" name="cod" placeholder="123" />
+            </div>
 
-            <label for="name">Nome</label>
-            <input type="text" name="name" placeholder="Nome do Produto" />
+            <div class="form-input">
+              <label for="cat">Categoria</label>
+              <select name="cat" id="categories-list"></select>
+            </div>
 
-            <label for="desc">Descrição</label>
-            <textarea name="desc" rows="4"> </textarea>
+            <div class="form-input">
+              <label for="name">Nome</label>
+              <input type="text" name="name" placeholder="Nome do Produto" />
+            </div>
 
-            <label for="weight">Peso</label>
-            <input type="text" name="weight" placeholder="23,56" />
+            <div class="form-input">
+              <label for="desc">Descrição</label>
+              <textarea name="desc" rows="6" cols="60"> </textarea>
+            </div>
 
-            <label for="price">Preço</label>
-            R$<input
-              type="text"
-              name="price"
-              hint="em reais"
-              placeholder="23,56"
-            />
+            <div class="form-input">
+              <label for="weight">Peso (KG)</label>
+              <input type="text" name="weight" placeholder="23,56" />
+            </div>
 
-            <label for="imagem">Imagem</label>
-            <input type="url" name="url" placeholder="URL da imagem">
+            <div class="form-input">
+              <label for="price">Preço</label>
+              <input
+                type="text"
+                name="price"
+                hint="em reais"
+                placeholder="23,56"
+              />
+            </div>
 
-            <button type="submit">Editar Produto</button>
+            <div class="form-input">
+              <label for="image">Imagem</label>
+              <input type="url" name="image" placeholder="URL da imagem" class="img-input">
+            </div>
+
+            <div class="form-input">
+              <button type="submit">Salvar</button>
+            </div>
           </form>
         </div>
       </div>
+
     </div>
   </body>
 </html>

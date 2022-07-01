@@ -1,3 +1,10 @@
+:root {
+  --primary-color: #2a3a63;
+  --secondary-color: #263256;
+  --tertiary-color: #5756d1;
+  color-scheme: dark;
+}
+
 .register-box {
   position: absolute;
   top: 60%;

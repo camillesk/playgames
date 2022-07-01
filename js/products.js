@@ -1,20 +1,3 @@
-(function() {
-    var cors_api_host = 'cors-anywhere.herokuapp.com';
-    var cors_api_url = 'https://' + cors_api_host + '/';
-    var slice = [].slice;
-    var origin = window.location.protocol + '//' + window.location.host;
-    var open = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function() {
-        var args = slice.call(arguments);
-        var targetOrigin = /^https?:\/\/([^\/]+)/i.exec(args[1]);
-        if (targetOrigin && targetOrigin[0].toLowerCase() !== origin &&
-            targetOrigin[1] !== cors_api_host) {
-            args[1] = cors_api_url + args[1];
-        }
-        return open.apply(this, args);
-    };
-})();
-
 window.onload = async function() {
   const response = await fetch('http://loja.buiar.com/?key=2xhj8d&f=json&c=categoria&t=listar');
   const data = await response.json();
@@ -27,10 +10,19 @@ window.onload = async function() {
 
     document.getElementById('category-selection').appendChild(opt);
   });
+
+  listProducts(null);
 }
 
 async function listProducts(form) {
-  const response = await fetch(`http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar&categoria=${form.value}`);
+  let response = "";
+
+  if (form && form.value != "") {
+    response = await fetch(`http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar&categoria=${form.value}`);
+  } else {
+    response = await fetch(`http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar`);
+  }
+
   const data = await response.json();
 
   let realBRLocale = Intl.NumberFormat('pt-BR', {
@@ -47,6 +39,48 @@ async function listProducts(form) {
     productsList.innerText = `Nenhum produto encontrado na categoria ${form.value}`;
   }
 
+  // data.dados.forEach((product) => {
+  //   let div = document.createElement("div");
+  //   div.setAttribute('class', 'product-item');
+  //   div.setAttribute('id', product.id);
+  //   div.setAttribute('title', 'Para adicionar o produto ao carrinho, arraste ou dê um duplo clique');
+  //   div.setAttribute('draggable', 'true');
+  //   div.setAttribute('ondragstart', 'dragstart_handler(event)');
+  //   div.setAttribute('ondblclick', 'checkCartQtd(this.id)');
+  //   productsList.appendChild(div);
+  //
+  //   let divImg = document.createElement("div");
+  //   divImg.setAttribute('class', "img-div");
+  //   div.appendChild(divImg);
+  //   let img = document.createElement("img");
+  //   img.setAttribute('src', product.imagem);
+  //   img.setAttribute('alt', product.nome);
+  //   img.setAttribute('class', "myImg");
+  //   img.setAttribute('draggable', 'false');
+  //   img.setAttribute('onclick', "openModal(this)");
+  //   divImg.appendChild(img);
+  //
+  //   let divInfo = document.createElement("div");
+  //   divInfo.setAttribute("class", "info-div");
+  //   div.appendChild(divInfo);
+  //   let hNome = document.createElement("h3");
+  //   hNome.innerText = product.nome;
+  //   divInfo.appendChild(hNome);
+  //   let pDesc = document.createElement("p");
+  //   pDesc.innerText = product.descricao;
+  //   divInfo.appendChild(pDesc);
+  //
+  //   let divPreco = document.createElement("div");
+  //   divPreco.setAttribute("class", "preco-div");
+  //   div.appendChild(divPreco);
+  //   let hPreco = document.createElement("h4");
+  //   hPreco.innerText = `R$ ${product.preco}`;
+  //   divPreco.appendChild(hPreco);
+  //
+  //   let line = document.createElement("hr");
+  //   productsList.appendChild(line);
+  // });
+
   data.dados.forEach((product) => {
     let div = document.createElement("div");
     div.setAttribute('class', 'product-item');
@@ -55,39 +89,64 @@ async function listProducts(form) {
     div.setAttribute('draggable', 'true');
     div.setAttribute('ondragstart', 'dragstart_handler(event)');
     div.setAttribute('ondblclick', 'checkCartQtd(this.id)');
+    div.setAttribute('onclick', 'openProduct(this.id)');
+
+    div.innerHTML =
+      `<h1 style="margin-top: 30px;">${product.nome}</h1>
+      <img src="${product.imagem}" class="product-img" draggable="false">
+      <p class="product-desc">${product.descricao}</p>
+      <p class="product-price"><b>${realBRLocale.format(product.preco)}</b></p>`
+
+    div.className = "product-card";
+
     productsList.appendChild(div);
 
-    let divImg = document.createElement("div");
-    divImg.setAttribute('class', "img-div");
-    div.appendChild(divImg);
-    let img = document.createElement("img");
-    img.setAttribute('src', product.imagem);
-    img.setAttribute('alt', product.nome);
-    img.setAttribute('class', "myImg");
-    img.setAttribute('draggable', 'false');
-    img.setAttribute('onclick', "openModal(this)");
-    divImg.appendChild(img);
-
-    let divInfo = document.createElement("div");
-    divInfo.setAttribute("class", "info-div");
-    div.appendChild(divInfo);
-    let hNome = document.createElement("h3");
-    hNome.innerText = product.nome;
-    divInfo.appendChild(hNome);
-    let pDesc = document.createElement("p");
-    pDesc.innerText = product.descricao;
-    divInfo.appendChild(pDesc);
-
-    let divPreco = document.createElement("div");
-    divPreco.setAttribute("class", "preco-div");
-    div.appendChild(divPreco);
-    let hPreco = document.createElement("h4");
-    hPreco.innerText = `R$ ${product.preco}`;
-    divPreco.appendChild(hPreco);
-
-    let line = document.createElement("hr");
-    productsList.appendChild(line);
+    // <p>Cod. ${product.codigo}</p>
+    // <p>${brLocale.format(product.peso) + 'KG'}</p>
   });
+}
+
+function openProduct(productId) {
+  var request = new XMLHttpRequest();
+  request.open('GET', `http://loja.buiar.com/?key=2xhj8d&c=produto&f=json&t=listar&id=${productId}`);
+  request.setRequestHeader('Access-Control-Allow-Origin', '*');
+  request.send();
+  request.onload = function() {
+    var productModalContent = document.getElementById('product-modal-content');
+    let div = document.createElement("div");
+    let realBRLocale = Intl.NumberFormat('pt-BR', {
+      style: "currency",
+      currency: "BRL",
+    });
+    let brLocale = Intl.NumberFormat('pt-BR');
+
+    data = request.response;
+    dataJson = JSON.parse(data);
+
+    div.innerHTML =
+      `<span onclick="closeProduct();" style="float:right;margin-left: 15px;">&times;</span>
+      <p>Código: ${dataJson.dados[0].codigo}</p>
+      <h1 style="margin-top: 30px;">${dataJson.dados[0].nome}</h1>
+      <img src="${dataJson.dados[0].imagem}" class="product-img" draggable="false">
+      <p>${brLocale.format(dataJson.dados[0].peso) + 'KG'}</p>
+      <p class="">${dataJson.dados[0].descricao}</p>
+      <p class="product-price"><b>${realBRLocale.format(dataJson.dados[0].preco)}</b></p>`
+
+    div.className = "detailed-product-card";
+
+    productModalContent.appendChild(div);
+  }
+
+  var productModal = document.getElementById('product-modal');
+  productModal.style.display = "block";
+}
+
+function closeProduct() {
+  var productModal = document.getElementById('product-modal');
+  var productCard = document.getElementsByClassName('detailed-product-card')[0];
+
+  productCard.remove();
+  productModal.style.display = "none";
 }
 
 function openModal(img) {
@@ -101,7 +160,7 @@ function openModal(img) {
   captionText.innerHTML = img.alt;
 
   var span = document.getElementsByClassName("close")[0];
-  span.onclick = function() { 
+  span.onclick = function() {
     modal.style.display = "none";
   }
 }
@@ -135,19 +194,20 @@ function drop_handler(ev) {
   ev.preventDefault();
 
   let id = ev.dataTransfer.getData('text');
- 
+
   checkCartQtd(id);
 }
 
 async function checkCartQtd(id) {
   if(document.getElementById(`cart-product-id-${id}`)) {
-    let spanQtd = document.getElementById(`cart-product-id-${id}-qtd`);
-    
-    let qtd = Number(spanQtd.textContent);
-    qtd++;
+    let inputQtd = document.getElementById(`cart-product-id-${id}-qtd`);
 
-    spanQtd.innerText = '';
-    spanQtd.innerText = qtd.toString();
+    // inputQtd.value = Number(inputQtd.value) + 1;
+    // let qtd = Number(inputQtd.textContent);
+    // qtd++;
+
+    // inputQtd.innerText = '';
+    // inputQtd.innerText = qtd.toString();
 
     const response = await fetch(`http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar&id=${id}`);
     const data = await response.json();
@@ -189,17 +249,23 @@ async function addToCart(id) {
     let divInfo = document.createElement('div');
     divInfo.setAttribute('class', 'info-div');
     div.appendChild(divInfo);
+
     let hNome = document.createElement('h4');
     hNome.innerText = product.nome;
     divInfo.appendChild(hNome);
+
     let pPreco = document.createElement('p');
     pPreco.innerText = `R$ ${product.preco}`;
     divInfo.appendChild(pPreco);
-    let spanQtd = document.createElement('span');
-    spanQtd.setAttribute('id', `cart-product-id-${product.id}-qtd`);
-    spanQtd.setAttribute('class', 'cart-product-qtd');
-    spanQtd.innerText = '1';
-    divInfo.appendChild(spanQtd);
+
+    let inputQtd = document.createElement('input');
+    inputQtd.setAttribute('type', 'number');
+    inputQtd.setAttribute('onchange', `checkCartQtd(${product.id})`);
+    inputQtd.setAttribute('id', `cart-product-id-${product.id}-qtd`);
+    inputQtd.setAttribute('class', 'cart-product-qtd');
+    inputQtd.value = '1';
+    divInfo.appendChild(inputQtd);
+
     let x = document.createElement('span');
     x.innerText = 'x';
     divInfo.appendChild(x);
@@ -221,9 +287,11 @@ async function addToCart(id) {
     productDelete.setAttribute('alt', 'delete');
     productDelete.setAttribute('class', 'cart-product-delete');
     divProductDelete.onclick = function() {
-      let qtd = Number(spanQtd.textContent);
+      let qtd = Number(inputQtd.textContent);
+      let preco = Number(product.preco * inputQtd.value)
+      let total = Number(document.getElementById('cart-total').textContent);
 
-      if(qtd === 1) {
+      // if(qtd === 1) {
         cartBody.removeChild(div);
         cartBody.removeChild(line);
         div.remove();
@@ -233,16 +301,14 @@ async function addToCart(id) {
         divInfo.remove();
         hNome.remove();
         pPreco.remove();
-        spanQtd.remove();
+        inputQtd.remove();
         x.remove();
-      } else if(qtd > 1) {
-        qtd--;
-        spanQtd.innerText = '';
-        spanQtd.innerText = qtd.toString();
-      }
+      // } else if(qtd > 1) {
+      //   qtd--;
+      //   inputQtd.innerText = '';
+      //   inputQtd.innerText = qtd.toString();
+      // }
 
-      let preco = Number(product.preco)
-      let total = Number(document.getElementById('cart-total').textContent);
       total = total - preco;
       document.getElementById('cart-total').innerText = '';
       document.getElementById('cart-total').innerText = total.toString();
@@ -289,7 +355,7 @@ function openCartSubmitModal() {
   modal.style.display = 'block';
 
   var span = document.getElementsByClassName('close')[1];
-  span.onclick = function() { 
+  span.onclick = function() {
     modal.style.display = 'none';
   }
 }
@@ -311,7 +377,7 @@ function completeOrderRegistration(id) {
   div.innerText = '';
 
   var span = document.getElementById("text-modal-close");
-  span.onclick = function() { 
+  span.onclick = function() {
     div.style.display = "none";
     window.location.reload();
   }
@@ -387,7 +453,7 @@ function registerOrder() {
     request.send();
 
     request.onreadystatechange = function() {
-      if (this.readyState === 4) {   
+      if (this.readyState === 4) {
         if (this.status == 200 && this.status < 300) {
           var response = JSON.parse(this.responseText);
           var orderId = response.dados.id;
