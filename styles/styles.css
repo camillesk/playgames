@@ -198,8 +198,8 @@ body {
 
 .product-img {
   margin: 10px 0px;
-  width: 80%;
-  height: 40%;
+  max-width: 80%;
+  max-height: 40%;
   object-fit: scale-down;
 }
 

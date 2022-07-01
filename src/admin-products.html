@@ -28,6 +28,7 @@
           <div class="dropdown-content">
             <a href="./admin-categories.html">Categorias</a>
             <a href="./admin-products.html">Produtos</a>
+            <a href="./admin-orders.html">Pedidos</a>
           </div>
         </div>
         <a href="./products.html">Produtos</a>
@@ -40,47 +41,23 @@
     <div class="">
       <h1><center>Administração - Produtos</center></h1>
 
-      <center>
+      <div style="display:flex;justify-content:center;">
+        <span type="button" class="filter-span">
+          Filtar por Categoria:
+          <select id="categories-filter" onchange="listProducts(this)">
+          </select>
+        </span>
         <button type="button" class="new-product-btn" onclick="openModal()">
           <img src="../images/add.png" alt="add-product" class="add-icon">
           Adicionar Produto
         </button>
+      </div>
+
+      <center>
       </center>
 
       <div class="products-list" id="products-list">
       </div>
-
-      <!-- <div class="content-box">
-        <form onsubmit="createProduct(this)">
-          <label for="cod">Código</label>
-          <input type="number" name="cod" placeholder="123" />
-
-          <label for="cat">Categoria</label>
-          <select name="cat" id="categories-create"></select>
-
-          <label for="name">Nome</label>
-          <input type="text" name="name" placeholder="Nome do Produto" />
-
-          <label for="desc">Descrição</label>
-          <textarea name="desc" rows="4" value=""> </textarea>
-
-          <label for="weight">Peso</label>
-          <input type="text" name="weight" placeholder="23,56" />
-
-          <label for="price">Preço</label>
-          R$<input
-            type="text"
-            name="price"
-            hint="em reais"
-            placeholder="123,45"
-          />
-
-          <label for="imagem">Imagem</label>
-          <input type="url" name="url" placeholder="URL da imagem">
-
-          <button type="submit">Criar Produto</button>
-        </form>
-      </div> -->
 
       <div id="modal" class="modal">
         <div class="modal-content">
@@ -124,8 +101,8 @@
             </div>
 
             <div class="form-input">
-              <label for="imagem">Imagem</label>
-              <input type="url" name="url" placeholder="URL da imagem">
+              <label for="image">Imagem</label>
+              <input type="url" name="image" placeholder="URL da imagem">
             </div>
 
             <div class="form-input">

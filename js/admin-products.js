@@ -1,37 +1,10 @@
 window.onload =
-  async function listProductsAndCategories() {
-    let response = await fetch('http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar');
-    let data = await response.json();
-
-    const contentDiv = document.getElementById('products-list');
-
-    let realBRLocale = Intl.NumberFormat('pt-BR', {
-      style: "currency",
-      currency: "BRL",
-    });
-
-    let brLocale = Intl.NumberFormat('pt-BR');
-
-    data.dados.forEach((product) => {
-      let div = document.createElement("div");
-
-      div.innerHTML =
-        `<img src="../images/delete.png" class="product-delete" style="float:right;" onclick="removeProduct(${product.id})">
-        <img src="../images/edit.png" class="product-edit" style="float:right;" onclick="openModal(${product.id})">
-        <h1 style="margin-top: 30px;">${product.nome}</h1>
-        <img src="${product.imagem}" class="product-img">
-        <p class="product-desc">${product.descricao}</p>
-        <p class="product-price"><b>${realBRLocale.format(product.preco)}</b></p>`
-
-      div.className = "product-card";
-
-      contentDiv.appendChild(div);
-    });
-
-    response = await fetch('http://loja.buiar.com/?key=2xhj8d&f=json&c=categoria&t=listar');
+  async function listCategories() {
+    let response = await fetch('http://loja.buiar.com/?key=2xhj8d&f=json&c=categoria&t=listar');
     data = await response.json();
 
     const categoriesSelect = document.getElementById('categories-list');
+    const categoriesFilterSelect = document.getElementById('categories-filter');
 
     data.dados.forEach((category) => {
       let opt = document.createElement("option");
@@ -41,7 +14,59 @@ window.onload =
 
       categoriesSelect.appendChild(opt);
     });
+
+    data.dados.forEach((category) => {
+      let opt = document.createElement("option");
+
+      opt.value = category.id;
+      opt.text = category.nome;
+
+      categoriesFilterSelect.appendChild(opt);
+    });
+
+    listProducts();
   }
+
+async function listProducts(categoryId) {
+  const contentDiv = document.getElementById('products-list');
+
+  while (contentDiv.hasChildNodes()) {
+    contentDiv.removeChild(contentDiv.firstChild);
+  }
+
+  let response = "";
+
+  if (categoryId) {
+    response = await fetch(`http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar&categoria=${categoryId.value}`);
+  } else {
+    response = await fetch(`http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar`);
+  }
+
+  let data = await response.json();
+
+  let realBRLocale = Intl.NumberFormat('pt-BR', {
+    style: "currency",
+    currency: "BRL",
+  });
+
+  let brLocale = Intl.NumberFormat('pt-BR');
+
+  data.dados.forEach((product) => {
+    let div = document.createElement("div");
+
+    div.innerHTML =
+      `<img src="../images/delete.png" class="product-delete" style="float:right;" onclick="removeProduct(${product.id})">
+      <img src="../images/edit.png" class="product-edit" style="float:right;" onclick="openModal(${product.id})">
+      <h1 style="margin-top: 30px;">${product.nome}</h1>
+      <img src="${product.imagem}" class="product-img">
+      <p class="product-desc">${product.descricao}</p>
+      <p class="product-price"><b>${realBRLocale.format(product.preco)}</b></p>`
+
+    div.className = "product-card";
+
+    contentDiv.appendChild(div);
+  });
+}
 
 function openModal(productId) {
   var request = new XMLHttpRequest();
@@ -61,6 +86,7 @@ function openModal(productId) {
     form.desc.value = dataJson.dados[0].descricao;
     form.weight.value = dataJson.dados[0].peso;
     form.price.value = dataJson.dados[0].preco;
+    form.image.value = dataJson.dados[0].imagem;
   }
 
   var modal = document.getElementById('modal');
