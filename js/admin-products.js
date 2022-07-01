@@ -29,38 +29,6 @@ window.onload =
 
       // <p>Cod. ${product.codigo}</p>
       // <p>${brLocale.format(product.peso) + 'KG'}</p>
-
-      // let tr = document.createElement("tr");
-      // let tdId = document.createElement("td");
-      // let tdCod = document.createElement("td");
-      // let tdCategory = document.createElement("td");
-      // let tdName = document.createElement("td");
-      // let tdDesc = document.createElement("td");
-      // let tdWeight = document.createElement("td");
-      // let tdPrice = document.createElement("td");
-      // let tdEdit = document.createElement("td");
-      // let tdDelete = document.createElement("td");
-      //
-      // tdId.innerText = product.id;
-      // tdCod.innerText = product.codigo;
-      // tdCategory.innerText = product.categoria;
-      // tdName.innerText = product.nome;
-      // tdDesc.innerText = product.descricao;
-      // tdWeight.innerText = brLocale.format(product.peso) + 'KG';
-      // tdPrice.innerText = realBRLocale.format(product.preco);
-      // tdEdit.innerHTML = `<button onclick="openModal(${product.id});">Editar</button>`;
-      // tdDelete.innerHTML = `<button onclick="removeProduct(${product.id});">Deletar</button>`;
-      //
-      // tr.appendChild(tdId);
-      // tr.appendChild(tdCod);
-      // tr.appendChild(tdCategory);
-      // tr.appendChild(tdName);
-      // tr.appendChild(tdDesc);
-      // tr.appendChild(tdWeight);
-      // tr.appendChild(tdPrice);
-      // tr.appendChild(tdEdit);
-      // tr.appendChild(tdDelete);
-      // table.appendChild(tr);
     });
 
     response = await fetch('http://loja.buiar.com/?key=2xhj8d&f=json&c=categoria&t=listar');
