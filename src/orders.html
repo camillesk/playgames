@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PlayGames - Produtos</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico" />
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <link rel="stylesheet" href="../styles/grid.css" />
+    <link rel="stylesheet" href="../styles/orders.css" />
+    <script src="../js/orders.js"></script>
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="col-3">
+        <a id="logo" href="./index.html">
+          <div class="logo-div">
+            <img src="../images/logo.png" alt="logo" class="logo" />
+            <span class="logo-title">PLAY GAMES</span>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 menu">
+        <div class="dropdown">
+          <button class="dropbtn">
+            Administração
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="./admin-categories.html">Categorias</a>
+            <a href="./admin-products.html">Produtos</a>
+          </div>
+        </div>
+        <a href="./produtos.html">Produtos</a>
+        <a href="./pedidos.html">Pedidos</a>
+        <a href="./contatos.html">Contato</a>
+        <a href="./sobre.html">Sobre</a>
+      </div>
+    </div>
+    <div class="content-box" style="margin: 2.7em;">
+      <div>
+        <input type="number" name="id-order" id="input-id-order" placeholder="Digite aqui o ID do pedido" title="Digite aqui o ID do pedido">
+        <img src="../images/check.png" id="confirm-id-order" draggable="false" onclick="idOrderConfirmed()" onmouseover="this.src = '../images/check2.png'" onmouseout="this.src = '../images/check.png'" onmousedown="this.src = '../images/check.png'" onmouseup="this.src = '../images/check2.png'">
+      </div>
+    </div>
+    <div id="client-info" class="content-box" style="margin: 2.7em;">
+      <span id="order-id"><b>Pedido nº</b> <span id="order-id-update"></span></span>
+      <span id="order-client-name"><b>Nome:</b> <span id="order-client-name-update"></span></span>
+      <span id="order-client-cpf"><b>CPF:</b> <span id="order-client-cpf-update"></span></span>
+      <span id="order-client-address"><b>Endereço:</b> <span id="order-client-address-update"></span></span>
+      <a href="" id="payment-slip-btn" target="_blank">
+        <img src="../images/payment-slip.png" id="payment-slip-img" draggable="false" title="Clique para baixar seu boleto de pagamento" onmouseover="this.src = '../images/payment-slip2.png'" onmouseout="this.src = '../images/payment-slip.png'" onmousedown="this.src = '../images/payment-slip.png'" onmouseup="this.src = '../images/payment-slip2.png'">
+      </a>
+    </div>
+    <div id="order-products-list"></div>
+    <div id="orders-list"></div>
+
+    <div id="myModal" class="modal">
+      <span class="close">×</span>
+      <img class="modal-content" id="img01">
+      <div id="caption"></div>
+    </div>
+    <div id="product-modal" class="product-modal">
+      <div class="product-modal-content" id="product-modal-content">
+      </div>
+    </div>
+  </body>
+</html>
