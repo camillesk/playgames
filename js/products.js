@@ -164,10 +164,10 @@ async function checkCartQtd(id) {
 
     data.dados.forEach((product) => {
       let preco = Number(product.preco)
-      let total = Number(document.getElementById('cart-total').textContent);
+      let total = Number(document.getElementById('cart-total').textContent.replace(',', '.'));
       total = total + preco;
       document.getElementById('cart-total').innerText = '';
-      document.getElementById('cart-total').innerText = total.toString();
+      document.getElementById('cart-total').innerText = total.toString().replace('.', ',');
     });
   } else {
     addToCart(id);
@@ -226,10 +226,10 @@ async function addToCart(id) {
     cartBody.appendChild(line);
 
     let preco = Number(product.preco)
-    let total = Number(document.getElementById('cart-total').textContent);
+    let total = Number(document.getElementById('cart-total').textContent.replace(',', '.'));
     total = total + preco;
     document.getElementById('cart-total').innerText = '';
-    document.getElementById('cart-total').innerText = total.toString();
+    document.getElementById('cart-total').innerText = total.toString().replace('.', ',');
 
     let divProductDelete = document.createElement('div');
     divProductDelete.setAttribute('class', 'div-product-delete');
@@ -241,7 +241,7 @@ async function addToCart(id) {
     divProductDelete.onclick = function() {
       let qtd = Number(inputQtd.value);
       let preco = Number(product.preco * inputQtd.value)
-      let total = Number(document.getElementById('cart-total').textContent);
+      let total = Number(document.getElementById('cart-total').textContent.replace(',', '.'));
 
       cartBody.removeChild(div);
       cartBody.removeChild(line);
@@ -257,7 +257,7 @@ async function addToCart(id) {
 
       total = total - preco;
       document.getElementById('cart-total').innerText = '';
-      document.getElementById('cart-total').innerText = total.toString();
+      document.getElementById('cart-total').innerText = total.toString().replace('.', ',');
     }
     productDelete.innerText = 'x';
     divProductDelete.appendChild(productDelete);
@@ -280,7 +280,7 @@ async function updateCartTotal() {
 
       total = total + (preco * qtd);
 
-      document.getElementById('cart-total').innerText = total.toString();
+      document.getElementById('cart-total').innerText = total.toString().replace('.', ',');
     }
   }));
 }
