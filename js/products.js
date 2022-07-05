@@ -39,48 +39,6 @@ async function listProducts(form) {
     productsList.innerText = `Nenhum produto encontrado na categoria ${form.value}`;
   }
 
-  // data.dados.forEach((product) => {
-  //   let div = document.createElement("div");
-  //   div.setAttribute('class', 'product-item');
-  //   div.setAttribute('id', product.id);
-  //   div.setAttribute('title', 'Para adicionar o produto ao carrinho, arraste ou dê um duplo clique');
-  //   div.setAttribute('draggable', 'true');
-  //   div.setAttribute('ondragstart', 'dragstart_handler(event)');
-  //   div.setAttribute('ondblclick', 'checkCartQtd(this.id)');
-  //   productsList.appendChild(div);
-  //
-  //   let divImg = document.createElement("div");
-  //   divImg.setAttribute('class', "img-div");
-  //   div.appendChild(divImg);
-  //   let img = document.createElement("img");
-  //   img.setAttribute('src', product.imagem);
-  //   img.setAttribute('alt', product.nome);
-  //   img.setAttribute('class', "myImg");
-  //   img.setAttribute('draggable', 'false');
-  //   img.setAttribute('onclick', "openModal(this)");
-  //   divImg.appendChild(img);
-  //
-  //   let divInfo = document.createElement("div");
-  //   divInfo.setAttribute("class", "info-div");
-  //   div.appendChild(divInfo);
-  //   let hNome = document.createElement("h3");
-  //   hNome.innerText = product.nome;
-  //   divInfo.appendChild(hNome);
-  //   let pDesc = document.createElement("p");
-  //   pDesc.innerText = product.descricao;
-  //   divInfo.appendChild(pDesc);
-  //
-  //   let divPreco = document.createElement("div");
-  //   divPreco.setAttribute("class", "preco-div");
-  //   div.appendChild(divPreco);
-  //   let hPreco = document.createElement("h4");
-  //   hPreco.innerText = `R$ ${product.preco}`;
-  //   divPreco.appendChild(hPreco);
-  //
-  //   let line = document.createElement("hr");
-  //   productsList.appendChild(line);
-  // });
-
   data.dados.forEach((product) => {
     let div = document.createElement("div");
     div.setAttribute('class', 'product-item');
@@ -200,11 +158,6 @@ async function checkCartQtd(id) {
     let inputQtd = document.getElementById(`cart-product-id-${id}-qtd`);
 
     inputQtd.value = Number(inputQtd.value) + 1;
-    // let qtd = Number(inputQtd.textContent);
-    // qtd++;
-
-    // inputQtd.innerText = '';
-    // inputQtd.innerText = qtd.toString();
 
     const response = await fetch(`http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar&id=${id}`);
     const data = await response.json();
@@ -260,6 +213,7 @@ async function addToCart(id) {
     inputQtd.setAttribute('type', 'number');
     inputQtd.setAttribute('onchange', `updateCartTotal()`);
     inputQtd.setAttribute('id', `cart-product-id-${product.id}-qtd`);
+    inputQtd.setAttribute('min', '1');
     inputQtd.setAttribute('class', 'cart-product-qtd');
     inputQtd.value = '1';
     divInfo.appendChild(inputQtd);
@@ -289,23 +243,17 @@ async function addToCart(id) {
       let preco = Number(product.preco * inputQtd.value)
       let total = Number(document.getElementById('cart-total').textContent);
 
-      // if(qtd === 1) {
-        cartBody.removeChild(div);
-        cartBody.removeChild(line);
-        div.remove();
-        line.remove();
-        divImg.remove();
-        img.remove();
-        divInfo.remove();
-        hNome.remove();
-        pPreco.remove();
-        inputQtd.remove();
-        x.remove();
-      // } else if(qtd > 1) {
-      //   qtd--;
-      //   inputQtd.innerText = '';
-      //   inputQtd.innerText = qtd.toString();
-      // }
+      cartBody.removeChild(div);
+      cartBody.removeChild(line);
+      div.remove();
+      line.remove();
+      divImg.remove();
+      img.remove();
+      divInfo.remove();
+      hNome.remove();
+      pPreco.remove();
+      inputQtd.remove();
+      x.remove();
 
       total = total - preco;
       document.getElementById('cart-total').innerText = '';
@@ -328,7 +276,6 @@ async function updateCartTotal() {
       const response = await fetch(`http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar&id=${productId}`);
       const data = await response.json();
 
-      debugger
       let preco = Number(data.dados[0].preco)
 
       total = total + (preco * qtd);
