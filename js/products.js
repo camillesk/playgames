@@ -39,48 +39,6 @@ async function listProducts(form) {
     productsList.innerText = `Nenhum produto encontrado na categoria ${form.value}`;
   }
 
-  // data.dados.forEach((product) => {
-  //   let div = document.createElement("div");
-  //   div.setAttribute('class', 'product-item');
-  //   div.setAttribute('id', product.id);
-  //   div.setAttribute('title', 'Para adicionar o produto ao carrinho, arraste ou dê um duplo clique');
-  //   div.setAttribute('draggable', 'true');
-  //   div.setAttribute('ondragstart', 'dragstart_handler(event)');
-  //   div.setAttribute('ondblclick', 'checkCartQtd(this.id)');
-  //   productsList.appendChild(div);
-  //
-  //   let divImg = document.createElement("div");
-  //   divImg.setAttribute('class', "img-div");
-  //   div.appendChild(divImg);
-  //   let img = document.createElement("img");
-  //   img.setAttribute('src', product.imagem);
-  //   img.setAttribute('alt', product.nome);
-  //   img.setAttribute('class', "myImg");
-  //   img.setAttribute('draggable', 'false');
-  //   img.setAttribute('onclick', "openModal(this)");
-  //   divImg.appendChild(img);
-  //
-  //   let divInfo = document.createElement("div");
-  //   divInfo.setAttribute("class", "info-div");
-  //   div.appendChild(divInfo);
-  //   let hNome = document.createElement("h3");
-  //   hNome.innerText = product.nome;
-  //   divInfo.appendChild(hNome);
-  //   let pDesc = document.createElement("p");
-  //   pDesc.innerText = product.descricao;
-  //   divInfo.appendChild(pDesc);
-  //
-  //   let divPreco = document.createElement("div");
-  //   divPreco.setAttribute("class", "preco-div");
-  //   div.appendChild(divPreco);
-  //   let hPreco = document.createElement("h4");
-  //   hPreco.innerText = `R$ ${product.preco}`;
-  //   divPreco.appendChild(hPreco);
-  //
-  //   let line = document.createElement("hr");
-  //   productsList.appendChild(line);
-  // });
-
   data.dados.forEach((product) => {
     let div = document.createElement("div");
     div.setAttribute('class', 'product-item');
@@ -89,10 +47,10 @@ async function listProducts(form) {
     div.setAttribute('draggable', 'true');
     div.setAttribute('ondragstart', 'dragstart_handler(event)');
     div.setAttribute('ondblclick', 'checkCartQtd(this.id)');
-    div.setAttribute('onclick', 'openProduct(this.id)');
 
     div.innerHTML =
-      `<h1 style="margin-top: 30px;">${product.nome}</h1>
+      `<img src="../images/view.png" class="product-view" style="float:right;" onclick="openProduct(${product.id})">
+      <h1 style="margin-top: 30px;">${product.nome}</h1>
       <img src="${product.imagem}" class="product-img" draggable="false">
       <p class="product-desc">${product.descricao}</p>
       <p class="product-price"><b>${realBRLocale.format(product.preco)}</b></p>`
@@ -100,9 +58,6 @@ async function listProducts(form) {
     div.className = "product-card";
 
     productsList.appendChild(div);
-
-    // <p>Cod. ${product.codigo}</p>
-    // <p>${brLocale.format(product.peso) + 'KG'}</p>
   });
 }
 
@@ -202,22 +157,17 @@ async function checkCartQtd(id) {
   if(document.getElementById(`cart-product-id-${id}`)) {
     let inputQtd = document.getElementById(`cart-product-id-${id}-qtd`);
 
-    // inputQtd.value = Number(inputQtd.value) + 1;
-    // let qtd = Number(inputQtd.textContent);
-    // qtd++;
-
-    // inputQtd.innerText = '';
-    // inputQtd.innerText = qtd.toString();
+    inputQtd.value = Number(inputQtd.value) + 1;
 
     const response = await fetch(`http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar&id=${id}`);
     const data = await response.json();
 
     data.dados.forEach((product) => {
       let preco = Number(product.preco)
-      let total = Number(document.getElementById('cart-total').textContent);
+      let total = Number(document.getElementById('cart-total').textContent.replace(',', '.'));
       total = total + preco;
       document.getElementById('cart-total').innerText = '';
-      document.getElementById('cart-total').innerText = total.toString();
+      document.getElementById('cart-total').innerText = total.toString().replace('.', ',');
     });
   } else {
     addToCart(id);
@@ -234,6 +184,7 @@ async function addToCart(id) {
     let div = document.createElement('div');
     div.setAttribute('class', 'cart-product-item');
     div.setAttribute('id', `cart-product-id-${product.id}`);
+    div.setAttribute('data-product-id', product.id);
     cartBody.appendChild(div);
 
     let divImg = document.createElement('div');
@@ -260,8 +211,9 @@ async function addToCart(id) {
 
     let inputQtd = document.createElement('input');
     inputQtd.setAttribute('type', 'number');
-    inputQtd.setAttribute('onchange', `checkCartQtd(${product.id})`);
+    inputQtd.setAttribute('onchange', `updateCartTotal()`);
     inputQtd.setAttribute('id', `cart-product-id-${product.id}-qtd`);
+    inputQtd.setAttribute('min', '1');
     inputQtd.setAttribute('class', 'cart-product-qtd');
     inputQtd.value = '1';
     divInfo.appendChild(inputQtd);
@@ -274,10 +226,10 @@ async function addToCart(id) {
     cartBody.appendChild(line);
 
     let preco = Number(product.preco)
-    let total = Number(document.getElementById('cart-total').textContent);
+    let total = Number(document.getElementById('cart-total').textContent.replace(',', '.'));
     total = total + preco;
     document.getElementById('cart-total').innerText = '';
-    document.getElementById('cart-total').innerText = total.toString();
+    document.getElementById('cart-total').innerText = total.toString().replace('.', ',');
 
     let divProductDelete = document.createElement('div');
     divProductDelete.setAttribute('class', 'div-product-delete');
@@ -287,35 +239,50 @@ async function addToCart(id) {
     productDelete.setAttribute('alt', 'delete');
     productDelete.setAttribute('class', 'cart-product-delete');
     divProductDelete.onclick = function() {
-      let qtd = Number(inputQtd.textContent);
+      let qtd = Number(inputQtd.value);
       let preco = Number(product.preco * inputQtd.value)
-      let total = Number(document.getElementById('cart-total').textContent);
+      let total = Number(document.getElementById('cart-total').textContent.replace(',', '.'));
 
-      // if(qtd === 1) {
-        cartBody.removeChild(div);
-        cartBody.removeChild(line);
-        div.remove();
-        line.remove();
-        divImg.remove();
-        img.remove();
-        divInfo.remove();
-        hNome.remove();
-        pPreco.remove();
-        inputQtd.remove();
-        x.remove();
-      // } else if(qtd > 1) {
-      //   qtd--;
-      //   inputQtd.innerText = '';
-      //   inputQtd.innerText = qtd.toString();
-      // }
+      cartBody.removeChild(div);
+      cartBody.removeChild(line);
+      div.remove();
+      line.remove();
+      divImg.remove();
+      img.remove();
+      divInfo.remove();
+      hNome.remove();
+      pPreco.remove();
+      inputQtd.remove();
+      x.remove();
 
       total = total - preco;
       document.getElementById('cart-total').innerText = '';
-      document.getElementById('cart-total').innerText = total.toString();
+      document.getElementById('cart-total').innerText = total.toString().replace('.', ',');
     }
     productDelete.innerText = 'x';
     divProductDelete.appendChild(productDelete);
   });
+}
+
+async function updateCartTotal() {
+  const parent = document.getElementById('cart-body');
+  const children = Array.from(parent.children);
+  let total = 0;
+
+  await Promise.all(children.map(async (child) => {
+    if(child.tagName == 'DIV') {
+      const productId = child.getAttribute("data-product-id");
+      const qtd = document.getElementById(`cart-product-id-${productId}-qtd`).value;
+      const response = await fetch(`http://loja.buiar.com/?key=2xhj8d&f=json&c=produto&t=listar&id=${productId}`);
+      const data = await response.json();
+
+      let preco = Number(data.dados[0].preco)
+
+      total = total + (preco * qtd);
+
+      document.getElementById('cart-total').innerText = total.toString().replace('.', ',');
+    }
+  }));
 }
 
 function checkCartTotalItems() {
@@ -328,7 +295,7 @@ function checkCartTotalItems() {
       if(cartItems[item].id != undefined) {
         let pontoRecorte = cartItems[item].id.lastIndexOf("-");
         let itemId = Number(cartItems[item].id.substring(pontoRecorte+1));
-        let qtd = Number(document.getElementById(`cart-product-id-${itemId}-qtd`).textContent);
+        let qtd = Number(document.getElementById(`cart-product-id-${itemId}-qtd`).value);
 
         if(qtd > 1) {
           qtd--;
@@ -415,7 +382,7 @@ async function addItemsToOrder(id) {
       let pontoRecorte = cartItems[item].id.lastIndexOf("-");
       let itemId = Number(cartItems[item].id.substring(pontoRecorte+1));
 
-      let qtd = Number(document.getElementById(`cart-product-id-${itemId}-qtd`).textContent);
+      let qtd = Number(document.getElementById(`cart-product-id-${itemId}-qtd`).value);
 
       let url_ = `http://loja.buiar.com/?key=2xhj8d&c=item&t=inserir&pedido=${id}&produto=${itemId}&qtd=${qtd}`;
 

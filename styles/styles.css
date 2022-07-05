@@ -187,7 +187,7 @@ body {
   cursor: pointer;
 }
 
-.product-edit, .product-delete {
+.product-edit, .product-delete, .product-view {
   width: 20px;
   filter: invert(1);
 }

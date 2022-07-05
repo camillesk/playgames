@@ -58,7 +58,7 @@
 .register-box .user-box input.not_empty ~ label {
   top: -20px;
   left: 0;
-  color: #03e9f4;
+  color: var(--tertiary-color);
   font-size: 12px;
 }
 
@@ -67,7 +67,7 @@
   display: inline-block;
   padding: 10px 20px;
   color: #fff;
-  background: #03e9f4;
+  background: var(--tertiary-color);
   font-size: 16px;
   margin-top: 20px;
   border-radius: 10px;
@@ -75,7 +75,7 @@
 
 .register-box button:hover {
   background: #fff;
-  color: #03e9f4;
+  color: var(--tertiary-color);
   border-radius: 10px;
 }
 
@@ -88,7 +88,7 @@
   position: relative;
   display: inline-block;
   padding: 10px 20px;
-  color: #03e9f4;
+  color: var(--tertiary-color);
   font-size: 16px;
   text-decoration: none;
   text-transform: uppercase;
@@ -96,4 +96,8 @@
   transition: .5s;
   margin-top: 40px;
   letter-spacing: 4px
+}
+
+#cart-submit-body {
+  margin: 0 !important;
 }

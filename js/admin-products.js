@@ -69,7 +69,9 @@ async function listProducts(categoryId) {
 }
 
 function openModal(productId) {
+  let brLocale = Intl.NumberFormat('pt-BR');
   var request = new XMLHttpRequest();
+
   request.open('GET', `http://loja.buiar.com/?key=2xhj8d&c=produto&f=json&t=listar&id=${productId}`);
   request.setRequestHeader('Access-Control-Allow-Origin', '*');
   request.send();
@@ -84,8 +86,8 @@ function openModal(productId) {
     form.cat.value = dataJson.dados[0].categoria;
     form.name.value = dataJson.dados[0].nome;
     form.desc.value = dataJson.dados[0].descricao;
-    form.weight.value = dataJson.dados[0].peso;
-    form.price.value = dataJson.dados[0].preco;
+    form.weight.value = brLocale.format(dataJson.dados[0].peso);
+    form.price.value = brLocale.format(dataJson.dados[0].preco);
     form.image.value = dataJson.dados[0].imagem;
   }
 
@@ -96,6 +98,17 @@ function openModal(productId) {
 
 function closeModal() {
   var modal = document.getElementById('modal');
+  var form = document.getElementById('form');
+
+  form.id.value = '';
+  form.cod.value = '';
+  form.cat.value = '';
+  form.name.value = '';
+  form.desc.value = '';
+  form.weight.value = '';
+  form.price.value = '';
+  form.image.value = '';
+
   modal.style.display = "none";
 }
 
